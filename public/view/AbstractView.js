@@ -1,3 +1,5 @@
+import { currentUser } from "../controller/firebase_auth.js";
+
 //common super class for all view classes
 export class AbstractView {
     parentElement = document.getElementById('spaRoot');
@@ -16,6 +18,11 @@ export class AbstractView {
 
     //to update the view to reflect to the updated model
     async render() {
+        if(!currentUser) {
+            this.parentElement.innerHTML = '<h1>Access denied</h1>'; 
+            return;
+        }
+
         this.parentElement.innerHTML = ''; //clearup
         //update view to the updated model
         const elements = await this.updateView();

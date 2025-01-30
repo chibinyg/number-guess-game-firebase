@@ -1,3 +1,4 @@
+import { currentUser } from "../controller/firebase_auth.js";
 import { AbstractView } from "./AbstractView.js";
 
 export class ProfileView extends AbstractView {
@@ -9,14 +10,24 @@ export class ProfileView extends AbstractView {
     }
 
     async onMount() {
+        if(!currentUser) {
+            this.parentElement.innerHTML = '<h1>Access denied</h1>'; 
+            return;
+        }
         console.log('ProfileView.onMount() called');
     }
 
     async updateView() {
         console.log('ProfileView.updateView() called');
-        const div = document.createElement('div');
-        div.innerHTML = 'Profile View';
-        return div;
+        const viewWrapper = document.createElement('div');
+        viewWrapper.innerHTML = `
+        <h1>Profile</h1>
+        <p>Welcome to the Profile page</p>
+        <p>Email: ${currentUser.email}</p>
+        <p>User UID: ${currentUser.uid}</p>
+        `;
+      
+        return viewWrapper;
     }
 
     attachEvents() {
@@ -24,6 +35,10 @@ export class ProfileView extends AbstractView {
     }
 
     async onLeave() {
+        if(!currentUser) {
+            this.parentElement.innerHTML = '<h1>Access denied</h1>'; 
+            return;
+        }
         console.log('ProfileView.onLeave() called');
     }
 }

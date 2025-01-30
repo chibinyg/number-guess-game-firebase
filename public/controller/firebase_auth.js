@@ -3,8 +3,12 @@ import {
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged,
+    createUserWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
 import { app } from "./firebase_core.js";
+import { router } from "./app.js";
+import { glHomeModel } from "./HomeController.js";
 
 const auth = getAuth(app);
 
@@ -33,6 +37,7 @@ onAuthStateChanged(auth, user => {
         //show spa root
         const spaRoot = document.getElementById('spaRoot');
         spaRoot.classList.replace('d-none', 'd-block');
+        router.navigate(window.location.pathname);
     } else {
         console.log('AuthStateChanged: User logged out');
         //show login form
@@ -44,5 +49,12 @@ onAuthStateChanged(auth, user => {
         //hide spa root
         const spaRoot = document.getElementById('spaRoot');
         spaRoot.classList.replace('d-block', 'd-none');
+        router.currentView = null;
+        spaRoot.innerHTML = ''; //clear the view
+        glHomeModel.reset(); //clear the number list
     }
 });
+
+export async function createAccount(email, password) {
+    await createUserWithEmailAndPassword(auth, email, password);
+}
