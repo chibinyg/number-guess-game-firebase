@@ -2,19 +2,22 @@
     <br>
     <div class="d-flex flex-column ps-3 mt-3">
         <!-- Balance section -->
-        <div id="balance" class="fs-3">Balance: </div>
+        <div id="balance" class="fs-3">Balance Area</div>
+
         <!-- Circle random key  -->
         <div style="width: 100px; height: 100px; border-radius: 50%; background-color: #007bff; 
          display: flex; justify-content: center; align-items: center;">
-            <span id="key" class="text-white fs-3">?</span>
+            <span id="key" class="text-white fs-3">Key</span>
         </div>
+
         <!-- Show key checkbox -->
         <div class="form-check mt-3">
-            <input class="form-check-input" type="checkbox" name="show-key" value="showKey">
-                Show Key
+            <input class="form-check-input" type="checkbox">Show Key
         </div>
+
         <!-- Message Area -->
         <div id="message" class="fs-4 text-white bg-primary">Message Area</div>
+
         <!-- Bet selection -->
         <div class="mt-3">
             <!-- Bet on odd/even -->
@@ -28,7 +31,8 @@
                 even
             </div>
             <div class="dropdown form-check-inline">
-                <button class="dropdown-toggle" style="border: none; background-color: ghostwhite;" type="button" data-bs-toggle="dropdown">
+                <button class="dropdown-toggle" style="border: none; background-color: ghostwhite;" type="button"
+                    data-bs-toggle="dropdown">
                     Select a bet amount
                 </button>
                 <ul class="dropdown-menu">
@@ -40,19 +44,20 @@
             <!-- Bet on range -->
             <div>Bet on Range (3x winnings)</div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="bet-range" value="one-two" checked>
+                <input class="form-check-input" type="radio" name="bet-range" value="1-2" checked>
                 1-2
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="bet-range" value="three-four">
+                <input class="form-check-input" type="radio" name="bet-range" value="3-4">
                 3-4
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="bet-range" value="five-six">
+                <input class="form-check-input" type="radio" name="bet-range" value="5-6">
                 5-6
             </div>
             <div class="dropdown form-check-inline">
-                <button class="dropdown-toggle" style="border: none; background-color: ghostwhite;" type="button" data-bs-toggle="dropdown">
+                <button class="dropdown-toggle" style="border: none; background-color: ghostwhite;" type="button"
+                    data-bs-toggle="dropdown">
                     Select a bet amount
                 </button>
                 <ul class="dropdown-menu">
@@ -61,11 +66,12 @@
                     <li><a class="dropdown-item">$30</a></li>
                 </ul>
             </div>
-            <!-- Play button -->
+
             <div>
+                <!-- Play button -->
                 <button id="button-play-game" class="btn btn-outline-primary">Play</button>
-            
-            <!-- New game button -->
+
+                <!-- New game button -->
                 <button id="button-new-game" class="btn btn-outline-danger">New Game</button>
             </div>
         </div>

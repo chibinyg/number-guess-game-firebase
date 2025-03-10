@@ -15,11 +15,12 @@ export class HomeModel {
 
     constructor() {
         this.balance = 100;
+        this.key = Math.floor(Math.random() * 6) + 1;
         this.showKey = false;
         this.betOnOddEven = 'odd';
-        this.betOnOddEvenAmount = 0;
+        this.betOnOddEvenAmount = null;
         this.betOnRange = '1-2';
-        this.betOnRangeAmount = 0;
+        this.betOnRangeAmount = null;
     }
 
     playGame() {
