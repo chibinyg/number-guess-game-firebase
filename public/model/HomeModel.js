@@ -1,15 +1,40 @@
+export const GameState = {
+    PLAYING: 0, DONE: 1
+}
+
 export class HomeModel {
-    numberList = [];
+    balance;
+    key; // random key from 1 - 6
+    showKey; // boolean value to show the key
+    progressMessage = 'Choose bet(s) and press [PLAY]';
+    betOnOddEven;
+    betOnOddEvenAmount;
+    betOnRange;
+    betOnRangeAmount;
+    gameState = GameState.PLAYING;
 
-    getNumberList() {
-        return this.numberList
+    constructor() {
+        this.balance = 100;
+        this.showKey = false;
+        this.betOnOddEven = 'odd';
+        this.betOnOddEvenAmount = 0;
+        this.betOnRange = '1-2';
+        this.betOnRangeAmount = 0;
     }
 
-    addNumber(number) {
-        this.numberList.push(number);
+    playGame() {
+        
     }
 
-    reset() {
-        this.numberList = [];
+    newGame() {
+        this.key = Math.floor(Math.random() * 6) + 1;
+        this.showKey = false;
+        this.progressMessage = 'Choose bet(s) and press [PLAY]';
+        this.gameState = GameState.PLAYING;
     }
+
+    
+
+   
+
 }
