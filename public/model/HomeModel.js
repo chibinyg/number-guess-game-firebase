@@ -6,7 +6,7 @@ export class HomeModel {
     balance;
     key; // random key from 1 - 6
     showKey; // boolean value to show the key
-    progressMessage = 'Choose bet(s) and press [PLAY]';
+    progressMessage;
     betOnOddEven;
     betOnOddEvenAmount;
     betOnRange;
@@ -17,6 +17,7 @@ export class HomeModel {
         this.balance = 100;
         this.key = Math.floor(Math.random() * 6) + 1;
         this.showKey = false;
+        this.progressMessage = 'Choose bet(s) and press [PLAY]';
         this.betOnOddEven = 'odd';
         this.betOnOddEvenAmount = null;
         this.betOnRange = '1-2';

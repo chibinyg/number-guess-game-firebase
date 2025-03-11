@@ -28,8 +28,28 @@ export class HomeController {
         this.model.betOnOddEven = e.target.value;
     }
 
+    onChangeBetOddEvenAmount(e) {
+        // console.log('HomeController.onChangeBetOddEvenAmount() called', e);
+        if(e == "") {
+            this.model.betOnOddEvenAmount = null;
+        } else {
+            this.model.betOnOddEvenAmount = parseInt(e);
+        }
+        this.view.render();
+    }
+
     onChangeBetRange(e) {
         // console.log('HomeController.onChangeBetRange() called', e.target.value);
         this.model.betOnRange = e.target.value;
+    }
+
+    onChangeBetRangeAmount(e) {
+        // console.log('HomeController.onChangeBetRangeAmount() called', e);
+        if (e == "") {
+            this.model.betOnRangeAmount = null;
+        } else {
+            this.model.betOnRangeAmount = parseInt(e);
+        }
+        this.view.render();
     }
 }
