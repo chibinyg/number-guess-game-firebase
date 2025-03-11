@@ -1,5 +1,6 @@
 import { AbstractView } from "./AbstractView.js";
 import { currentUser } from "../controller/firebase_auth.js";
+import { GameState } from "../model/HomeModel.js";
 
 export class HomeView extends AbstractView {
     //instance variables
@@ -25,12 +26,14 @@ export class HomeView extends AbstractView {
 
         const model = this.controller.model;
 
-        // Balance 
+        // balance 
         viewWrapper.querySelector('#balance').innerHTML = `Balance: $${model.balance}`;
 
-        // Key and checkbox
-        viewWrapper.querySelector('#key').innerHTML = `${model.showKey ? model.key : '?'}`;
+        // checkbox
         viewWrapper.querySelector('input[type="checkbox"]').checked = model.showKey;
+
+        // showKey
+        viewWrapper.querySelector('#showKey').innerHTML = `${model.showKey ? `Game Key: ${model.key}` : ''}`;
 
         // game progress message
         viewWrapper.querySelector('#message').innerHTML = model.progressMessage;
@@ -54,14 +57,31 @@ export class HomeView extends AbstractView {
 
         // range amount dropdown, show selected amount if betOnRangeAmount is not null
         if(model.betOnRangeAmount != null) {
-            viewWrapper.querySelector('#dropdown-range-amount').textContent = `$${model.betOnRangeAmount}`;
+            viewWrapper.querySelector('#dropdown-range-amount').innerHTML = `$${model.betOnRangeAmount}`;
+        }
+
+        switch (model.gameState) {
+            case GameState.INIT:
+                viewWrapper.querySelector('#button-play-game').disabled = true;
+                viewWrapper.querySelector('#button-new-game').disabled = true;
+                break;
+            case GameState.PLAYING:
+                viewWrapper.querySelector('#button-play-game').disabled = false;
+                viewWrapper.querySelector('#button-new-game').disabled = true;
+                break;
+            case GameState.DONE:
+                viewWrapper.querySelector('#button-play-game').disabled = true;
+                viewWrapper.querySelector('#button-new-game').disabled = false;
+                radioButtonsOddEven.forEach(radio => radio.disabled = true);
+                radioButtonsRange.forEach(radio => radio.disabled = true);
+                // disable dropdowns
+                viewWrapper.querySelector('#dropdown-odd-even-amount').disabled = true;
+                viewWrapper.querySelector('#dropdown-range-amount').disabled = true;
+                // show key
+                viewWrapper.querySelector('#key').innerHTML = `${model.key}`;
+                break;
         }
         
-
-
-
-
-
         return viewWrapper;
     }
 
@@ -92,6 +112,12 @@ export class HomeView extends AbstractView {
         dropdownRangeItems.addEventListener('click', (e) => {
             this.controller.onChangeBetRangeAmount(e.target.getAttribute('data-value'));
         });
+
+        // play button
+        document.getElementById('button-play-game').onclick = this.controller.onClickPlayGameButton;
+
+        // new game button
+        document.getElementById('button-new-game').onclick = this.controller.onClickNewGameButton;
     }
 
     async onLeave() {

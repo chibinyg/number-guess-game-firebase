@@ -1,18 +1,20 @@
 <div class="container bg-secondary-subtle">
     <br>
-    <div class="d-flex flex-column ps-3 mt-3">
+    <br>
+    <div class="d-flex flex-column ps-3">
         <!-- Balance section -->
         <div id="balance" class="fs-3">Balance Area</div>
 
         <!-- Circle random key  -->
         <div style="width: 100px; height: 100px; border-radius: 50%; background-color: #007bff; 
          display: flex; justify-content: center; align-items: center;">
-            <span id="key" class="text-white fs-3">Key</span>
+            <span id="key" class="text-white fs-3">?</span>
         </div>
 
         <!-- Show key checkbox -->
         <div class="form-check mt-3">
             <input class="form-check-input" type="checkbox">Show Key
+            <span id="showKey" class="ms-2 text-danger"></span> <!-- Placeholder for the key -->
         </div>
 
         <!-- Message Area -->
@@ -68,7 +70,6 @@
                     <li><a class="dropdown-item" data-value="30">$30</a></li>
                 </ul>
             </div>
-
             <div>
                 <!-- Play button -->
                 <button id="button-play-game" class="btn btn-outline-primary">Play</button>
@@ -78,4 +79,6 @@
             </div>
         </div>
     </div>
+    <br>
+    <br>
 </div>

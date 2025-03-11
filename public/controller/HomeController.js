@@ -1,4 +1,4 @@
-import { HomeModel } from "../model/HomeModel.js";
+import { HomeModel, GameState} from "../model/HomeModel.js";
 
 export const glHomeModel = new HomeModel();
 
@@ -11,6 +11,8 @@ export class HomeController {
         this.onChangeShowKey = this.onChangeShowKey.bind(this);
         this.onChangeBetOddEven = this.onChangeBetOddEven.bind(this);
         this.onChangeBetRange = this.onChangeBetRange.bind(this);
+        this.onClickPlayGameButton = this.onClickPlayGameButton.bind(this);
+        this.onClickNewGameButton = this.onClickNewGameButton.bind(this);
    }
 
    setView(view) {
@@ -35,6 +37,7 @@ export class HomeController {
         } else {
             this.model.betOnOddEvenAmount = parseInt(e);
         }
+        this.updateGameState();
         this.view.render();
     }
 
@@ -50,6 +53,32 @@ export class HomeController {
         } else {
             this.model.betOnRangeAmount = parseInt(e);
         }
+        this.updateGameState();
         this.view.render();
+    }
+
+    onClickPlayGameButton() {
+        // console.log('HomeController.onClickPlayGameButton() called');
+        this.model.playGame();
+        this.model.gameState = GameState.DONE;
+        this.view.render();
+    }
+
+    onClickNewGameButton() {
+        // console.log('HomeController.onClickNewGameButton() called');
+        this.model.newGame();
+        this.model.gameState = GameState.INIT;
+        this.view.render();
+    }
+
+    // helper function to update game state for dropdown menu
+    updateGameState() {
+        // If at least one bet amount is selected, set gameState to PLAYING
+        if (this.model.betOnOddEvenAmount != null || this.model.betOnRangeAmount != null) {
+            this.model.gameState = GameState.PLAYING;
+        } else {
+            // If both bet amounts are null, set gameState to INIT
+            this.model.gameState = GameState.INIT;
+        }
     }
 }
