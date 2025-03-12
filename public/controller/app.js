@@ -5,12 +5,15 @@ import { ProfileController } from "./ProfileController.js";
 import { Router } from './Router.js';
 import { loginFirebase, logoutFirebase, createAccount} from './firebase_auth.js';
 import { startSpinner, stopSpinner } from "../view/util.js";
+import { PlayHistoryController } from "./PlayHistoryController.js";
+import { PlayHistoryView } from "../view/PlayHistoryView.js";
 
 document.getElementById('appHeader').textContent = 'Dice Roll Game';
 document.title = 'Dice Game';
 
 const routes = [
     { path: '/', view: HomeView, controller: HomeController },
+    { path: '/playhistory', view: PlayHistoryView, controller: PlayHistoryController },
     { path: '/profile', view: ProfileView, controller: ProfileController },
 ];
 

@@ -25,15 +25,10 @@ export class HomeModel {
     }
 
     playGame() {
-        // check if balance is enough
-        if (this.betOnOddEvenAmount > this.balance || this.betOnRangeAmount > this.balance) {
-            this.progressMessage = 'Insufficient balance';
-        }
-
         let oddEvenMessage = '';
         let rangeMessage = '';
 
-        // odd/even bet is chosen and balance is enough, 2x winnings
+        // odd/even bet is chosen, 2x winnings
         if(this.betOnOddEvenAmount != null) {
             let winAmount = 0;
             if (this.betOnOddEven === 'odd' && this.key % 2 === 1) {
@@ -52,7 +47,7 @@ export class HomeModel {
             oddEvenMessage = 'No bet on odd/even';
         }
         
-        // range bet is chosen and balance is enough, 3x winnings
+        // range bet is chosen, 3x winnings
         if(this.betOnRangeAmount != null) {
             let winAmount = 0;
             if (this.betOnRange === '1-2' && this.key <= 2) {
@@ -86,5 +81,45 @@ export class HomeModel {
         this.betOnRange = '1-2';
         this.betOnRangeAmount = null;
         this.progressMessage = 'Choose bet(s) and press [PLAY]';
+    }
+
+    toFirestoreObject(email) {
+        return {
+            email: email,
+            timestamp: Date.now(),
+            balance: this.balance,
+            bet: (this.betOnOddEvenAmount || 0) + (this.betOnRangeAmount || 0), // Total bet amount
+            win: this.calculateWinAmount(),
+        }
+    }
+
+    calculateWinAmount() {
+        let winAmount = 0;
+
+        // Calculate win amount for odd/even bet
+        if (this.betOnOddEvenAmount != null) {
+            if (this.betOnOddEven === 'odd' && this.key % 2 === 1) {
+                winAmount += this.betOnOddEvenAmount * 2;
+            } else if (this.betOnOddEven === 'even' && this.key % 2 === 0) {
+                winAmount += this.betOnOddEvenAmount * 2;
+            } else {
+                winAmount -= this.betOnOddEvenAmount;
+            }
+        }
+
+        // Calculate win amount for range bet
+        if (this.betOnRangeAmount != null) {
+            if (this.betOnRange === '1-2' && this.key <= 2) {
+                winAmount += this.betOnRangeAmount * 3;
+            } else if (this.betOnRange === '3-4' && this.key > 2 && this.key <= 4) {
+                winAmount += this.betOnRangeAmount * 3;
+            } else if (this.betOnRange === '5-6' && this.key > 4) {
+                winAmount += this.betOnRangeAmount * 3;
+            } else {
+                winAmount -= this.betOnRangeAmount;
+            }
+        }
+
+        return winAmount;
     }
 }

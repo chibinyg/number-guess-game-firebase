@@ -5,6 +5,7 @@ import { GameState } from "../model/HomeModel.js";
 export class HomeView extends AbstractView {
     //instance variables
     controller = null;
+    
     constructor(controller) {
         super();
         this.controller = controller;

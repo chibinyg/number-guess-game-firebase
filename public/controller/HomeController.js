@@ -1,4 +1,7 @@
 import { HomeModel, GameState} from "../model/HomeModel.js";
+import { startSpinner, stopSpinner } from "../view/util.js";
+import { currentUser } from "./firebase_auth.js";
+import { addPlayHistory } from "./firestore_controller.js";
 
 export const glHomeModel = new HomeModel();
 
@@ -57,10 +60,21 @@ export class HomeController {
         this.view.render();
     }
 
-    onClickPlayGameButton() {
+    async onClickPlayGameButton() {
         // console.log('HomeController.onClickPlayGameButton() called');
         this.model.playGame();
         this.model.gameState = GameState.DONE;
+        // save the game record to Firestore
+        startSpinner();
+        try {
+            const history = this.model.toFirestoreObject(currentUser.email);
+            await addPlayHistory(history);
+            stopSpinner();
+        } catch (e) {
+            stopSpinner();
+            console.error('Error saving game history', e);
+            alert('Error saving game history: ' + e);
+        }
         this.view.render();
     }
 
