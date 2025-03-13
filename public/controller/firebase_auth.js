@@ -51,7 +51,7 @@ onAuthStateChanged(auth, user => {
         spaRoot.classList.replace('d-block', 'd-none');
         router.currentView = null;
         spaRoot.innerHTML = ''; //clear the view
-        glHomeModel.reset(); //clear the number list
+        //glHomeModel.reset(); // reset the model
     }
 });
 

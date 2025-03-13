@@ -122,4 +122,15 @@ export class HomeModel {
 
         return winAmount;
     }
+
+    // reset() {
+    //     this.balance = 100;
+    //     this.key = Math.floor(Math.random() * 6) + 1;
+    //     this.showKey = false;
+    //     this.progressMessage = 'Choose bet(s) and press [PLAY]';
+    //     this.betOnOddEven = 'odd';
+    //     this.betOnOddEvenAmount = null;
+    //     this.betOnRange = '1-2';
+    //     this.betOnRangeAmount = null;
+    // }
 }

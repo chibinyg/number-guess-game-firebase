@@ -6,6 +6,8 @@ import {
     where,
     orderBy,
     getDocs,
+    doc,
+    deleteDoc,
 } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
 import { app } from "./firebase_core.js";
 import { currentUser } from "./firebase_auth.js";
@@ -22,7 +24,7 @@ export async function addPlayHistory(history) {
 export async function getPlayHistoryList() {
     let historyList = [];
     const q = query(
-        collection(db, OLLECTION_DICEGAME),
+        collection(db, COLLECTION_DICEGAME),
         where('email', '==', currentUser.email),
         orderBy('timestamp', 'desc'),
     );
@@ -34,3 +36,22 @@ export async function getPlayHistoryList() {
     });
     return historyList;
 }
+
+// delete all play history for the current user
+export async function deletePlayHistoryByEmail() {
+    const q = query(
+        collection(db, COLLECTION_DICEGAME),
+        where('email', '==', currentUser.email)
+    );
+
+    // Get the documents that match the query
+    const querySnapshot = await getDocs(q);
+
+    // Delete each document
+    querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+    });
+}
+
+
+
