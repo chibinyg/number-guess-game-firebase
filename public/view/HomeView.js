@@ -1,28 +1,44 @@
 import { AbstractView } from "./AbstractView.js";
 import { currentUser } from "../controller/firebase_auth.js";
 import { GameState } from "../model/HomeModel.js";
+import { getMostRecentBalance } from "../controller/firestore_controller.js";
 
 export class HomeView extends AbstractView {
     //instance variables
     controller = null;
-    
+
     constructor(controller) {
         super();
         this.controller = controller;
     }
 
     async onMount() {
-        if(!currentUser) {
-            this.parentElement.innerHTML = '<h1>Access denied</h1>'; 
+        if (!currentUser) {
+            this.parentElement.innerHTML = '<h1>Access denied</h1>';
             return;
         }
         console.log('HomeView.onMount() called');
+
+        try {
+            // Fetch the most recent balance from Firestore
+            const mostRecentBalance = await getMostRecentBalance();
+
+            // Update the balance if a recent balance was found
+            if (mostRecentBalance !== null) {
+                this.controller.model.balance = mostRecentBalance;
+            } else {
+                // If no history is found, reset the balance to the default value (100)
+                this.controller.model.balance = 100;
+            }
+        } catch (error) {
+            console.error('Error updating balance:', error);
+        }
     }
 
     async updateView() {
         console.log('HomeView.updateView() called');
         const viewWrapper = document.createElement('div');
-        const response = await fetch('/view/templates/home.html', {cache: 'no-store'});
+        const response = await fetch('/view/templates/home.html', { cache: 'no-store' });
         viewWrapper.innerHTML = await response.text();
 
         const model = this.controller.model;
@@ -46,7 +62,7 @@ export class HomeView extends AbstractView {
         }
 
         // odd/even amount dropdown, show selected amount if betOnOddEvenAmount is not null
-        if(model.betOnOddEvenAmount != null) {
+        if (model.betOnOddEvenAmount != null) {
             viewWrapper.querySelector('#dropdown-odd-even-amount').textContent = `$${model.betOnOddEvenAmount}`;
         }
 
@@ -57,7 +73,7 @@ export class HomeView extends AbstractView {
         }
 
         // range amount dropdown, show selected amount if betOnRangeAmount is not null
-        if(model.betOnRangeAmount != null) {
+        if (model.betOnRangeAmount != null) {
             viewWrapper.querySelector('#dropdown-range-amount').innerHTML = `$${model.betOnRangeAmount}`;
         }
 
@@ -82,7 +98,7 @@ export class HomeView extends AbstractView {
                 viewWrapper.querySelector('#key').innerHTML = `${model.key}`;
                 break;
         }
-        
+
         return viewWrapper;
     }
 
@@ -122,8 +138,8 @@ export class HomeView extends AbstractView {
     }
 
     async onLeave() {
-        if(!currentUser) {
-            this.parentElement.innerHTML = '<h1>Access denied</h1>'; 
+        if (!currentUser) {
+            this.parentElement.innerHTML = '<h1>Access denied</h1>';
             return;
         }
         console.log('HomeView.onLeave() called');

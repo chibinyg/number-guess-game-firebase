@@ -48,6 +48,7 @@ export class PlayHistoryView extends AbstractView {
                 viewWrapper.querySelector('#button-clear-history').disabled = true;
                 const div = document.createElement('div');
                 div.innerHTML = 'No game history found!';
+                div.style.color= 'red';
                 tbody.appendChild(div);
             } else {
                 let rowNum = 1;

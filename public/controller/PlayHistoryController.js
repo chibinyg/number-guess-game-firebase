@@ -1,6 +1,7 @@
 import { PlayHistoryModel } from "../model/PlayHistoryModel.js";
 import { deletePlayHistoryByEmail, getPlayHistoryList } from "../controller/firestore_controller.js";
 import { startSpinner, stopSpinner } from "../view/util.js";
+import { currentUser } from "./firebase_auth.js";
 
 export class PlayHistoryController {
     view = null;
@@ -23,7 +24,7 @@ export class PlayHistoryController {
         try {
             stopSpinner();
             await deletePlayHistoryByEmail();
-            this.model.historyList = await getPlayHistoryList();
+            this.model.deletePlayHistoryByEmail(currentUser.email);
             this.view.render();
         } catch (error) {
             stopSpinner();

@@ -15,9 +15,7 @@ const auth = getAuth(app);
 export let currentUser = null;
 
 export async function loginFirebase(email, password) {
-
     await signInWithEmailAndPassword(auth, email, password);
-
 }
 
 export async function logoutFirebase() {
@@ -51,7 +49,7 @@ onAuthStateChanged(auth, user => {
         spaRoot.classList.replace('d-block', 'd-none');
         router.currentView = null;
         spaRoot.innerHTML = ''; //clear the view
-        //glHomeModel.reset(); // reset the model
+        glHomeModel.reset(); // reset the model
     }
 });
 

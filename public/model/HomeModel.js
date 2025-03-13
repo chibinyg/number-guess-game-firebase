@@ -29,7 +29,7 @@ export class HomeModel {
         let rangeMessage = '';
 
         // odd/even bet is chosen, 2x winnings
-        if(this.betOnOddEvenAmount != null) {
+        if (this.betOnOddEvenAmount != null) {
             let winAmount = 0;
             if (this.betOnOddEven === 'odd' && this.key % 2 === 1) {
                 winAmount = this.betOnOddEvenAmount * 2;
@@ -43,12 +43,12 @@ export class HomeModel {
                 this.balance -= this.betOnOddEvenAmount;
                 oddEvenMessage = `You lost $${this.betOnOddEvenAmount} on ${this.betOnOddEven}`;
             }
-        } else{
+        } else {
             oddEvenMessage = 'No bet on odd/even';
         }
-        
+
         // range bet is chosen, 3x winnings
-        if(this.betOnRangeAmount != null) {
+        if (this.betOnRangeAmount != null) {
             let winAmount = 0;
             if (this.betOnRange === '1-2' && this.key <= 2) {
                 winAmount = this.betOnRangeAmount * 3;
@@ -123,14 +123,10 @@ export class HomeModel {
         return winAmount;
     }
 
-    // reset() {
-    //     this.balance = 100;
-    //     this.key = Math.floor(Math.random() * 6) + 1;
-    //     this.showKey = false;
-    //     this.progressMessage = 'Choose bet(s) and press [PLAY]';
-    //     this.betOnOddEven = 'odd';
-    //     this.betOnOddEvenAmount = null;
-    //     this.betOnRange = '1-2';
-    //     this.betOnRangeAmount = null;
-    // }
+    reset() {
+        // Reset the game state
+        this.newGame();
+        this.showKey = false;
+        this.gameState = GameState.INIT;
+    }
 }

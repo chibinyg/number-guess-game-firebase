@@ -6,7 +6,7 @@ import {
     where,
     orderBy,
     getDocs,
-    doc,
+    limit,
     deleteDoc,
 } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
 import { app } from "./firebase_core.js";
@@ -51,6 +51,23 @@ export async function deletePlayHistoryByEmail() {
     querySnapshot.forEach(async (doc) => {
         await deleteDoc(doc.ref);
     });
+}
+
+export async function getMostRecentBalance() {
+        const q = query(
+            collection(db, COLLECTION_DICEGAME),
+            where('email', '==', currentUser.email),
+            orderBy('timestamp', 'desc'),
+            limit(1) // Limit to the most recent document
+        );
+
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            const mostRecentDoc = querySnapshot.docs[0];
+            return mostRecentDoc.data().balance; // Return the balance from the most recent document
+        } else {
+            return null; // No history found for the user
+        }
 }
 
 
