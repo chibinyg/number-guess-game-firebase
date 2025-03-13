@@ -31,7 +31,7 @@ export class ProfileView extends AbstractView {
     }
 
     attachEvents() {
-        console.log('ProfileView.attachEvents() called');
+        //console.log('ProfileView.attachEvents() called');
     }
 
     async onLeave() {

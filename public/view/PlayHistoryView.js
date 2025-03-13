@@ -32,6 +32,7 @@ export class PlayHistoryView extends AbstractView {
     }
 
     async updateView() {
+        console.log('PlayHistoryView.updateView() called');
         const viewWrapper = document.createElement('div');
         try {
             const response = await fetch('/view/templates/playHistory.html', { cache: 'no-store' });
